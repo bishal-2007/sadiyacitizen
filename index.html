@@ -174,61 +174,59 @@
 
 <script>
     const form = document.getElementById('citizenForm');
-const citizenList = document.getElementById('citizenList');
+    const citizenList = document.getElementById('citizenList');
 
-// Retrieve registered citizens from localStorage or initialize an empty array
-const registeredCitizens = JSON.parse(localStorage.getItem('citizens')) || [];
+    // Retrieve registered citizens from localStorage or initialize an empty array
+    const registeredCitizens = JSON.parse(localStorage.getItem('citizens')) || [];
 
-// Function to display all registered citizens
-function displayCitizens() {
-    citizenList.innerHTML = ''; // Clear existing list
-    registeredCitizens.forEach(citizen => {
-        const listItem = document.createElement('li');
-        listItem.innerHTML = `
-            <strong>Name:</strong> ${citizen.name} | 
-            <strong>Phone:</strong> ${citizen.phone} | 
-            <strong>Village:</strong> ${citizen.village}
-        `;
-        citizenList.appendChild(listItem);
-    });
-}
-
-// Display citizens on page load
-displayCitizens();
-
-form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const name = form.name.value.trim();
-    const phone = form.phone.value.trim();
-    const village = form.village.value.trim();
-    const student = form.student.value.trim();
-
-    // Check for duplicates
-    const isDuplicate = registeredCitizens.some(citizen => citizen.name === name && citizen.phone === phone);
-    if (isDuplicate) {
-        alert("This name and phone number are already registered.");
-        return;
+    // Function to display all registered citizens
+    function displayCitizens() {
+        citizenList.innerHTML = ''; // Clear existing list
+        registeredCitizens.forEach(citizen => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+                <strong>Name:</strong> ${citizen.name} | 
+                <strong>Phone:</strong> ${citizen.phone} | 
+                <strong>Village:</strong> ${citizen.village}
+            `;
+            citizenList.appendChild(listItem);
+        });
     }
 
-    // Format phone number: show first 5 digits as XXXXX and last 5 digits
-    const formattedPhone = `XXXXX${phone.slice(5)}`;
-
-    // Create a new citizen object
-    const newCitizen = { name, phone: formattedPhone, village, student };
-
-    // Add the new citizen to the array and update localStorage
-    registeredCitizens.push(newCitizen);
-    localStorage.setItem('citizens', JSON.stringify(registeredCitizens));
-
-    // Refresh the displayed list of citizens
+    // Display citizens on page load
     displayCitizens();
 
-    // Clear form fields after submission
-    form.reset();
-});
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
 
+        const name = form.name.value.trim();
+        const phone = form.phone.value.trim();
+        const village = form.village.value.trim();
+        const student = form.student.value.trim();
 
+        // Check for duplicates
+        const isDuplicate = registeredCitizens.some(citizen => citizen.name === name && citizen.phone === phone);
+        if (isDuplicate) {
+            alert("This name and phone number are already registered.");
+            return;
+        }
+
+        // Format phone number: show first 5 digits as XXXXX and last 5 digits
+        const formattedPhone = `XXXXX${phone.slice(5)}`;
+
+        // Create a new citizen object
+        const newCitizen = { name, phone: formattedPhone, village, student };
+
+        // Add the new citizen to the array and update localStorage
+        registeredCitizens.push(newCitizen);
+        localStorage.setItem('citizens', JSON.stringify(registeredCitizens));
+
+        // Refresh the displayed list of citizens
+        displayCitizens();
+
+        // Clear form fields after submission
+        form.reset();
+    });
 </script>
 
 </body>
